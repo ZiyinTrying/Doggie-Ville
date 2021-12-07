@@ -7,8 +7,12 @@
   "dependencies": {
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "mangodb": "^1.0.0",
-    "nodemon": "^2.0.15"
+    "mongodb": "^4.2.1",
+    "node-fetch": "2.0",
+    "nodemon": "^2.0.15",
+    "uuid": "^8.3.2",
+    "uuid4": "^2.0.2",
+    "uuidv4": "^6.2.12"
   },
   "scripts": {
     "start": "nodemon server.js"
