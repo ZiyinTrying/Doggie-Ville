@@ -1,9 +1,87 @@
 const mapStyles = [
   {
+    featureType: "administrative.land_parcel",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "administrative.locality",
+    stylers: [
+      {
+        visibility: "on",
+      },
+      {
+        weight: 1,
+      },
+    ],
+  },
+  {
+    featureType: "administrative.locality",
+    elementType: "labels.icon",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "administrative.locality",
+    elementType: "labels.text",
+    stylers: [
+      {
+        color: "#aaacb1",
+      },
+      {
+        visibility: "simplified",
+      },
+    ],
+  },
+  {
+    featureType: "administrative.locality",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#8c8ca1",
+      },
+    ],
+  },
+  {
+    featureType: "administrative.locality",
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        color: "#353536",
+      },
+      {
+        weight: 1,
+      },
+    ],
+  },
+  {
+    featureType: "administrative.neighborhood",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
     featureType: "landscape.natural.terrain",
     stylers: [
       {
         color: "#f4f9fa",
+      },
+    ],
+  },
+  {
+    featureType: "poi",
+    elementType: "labels.text",
+    stylers: [
+      {
+        visibility: "off",
       },
     ],
   },
@@ -19,7 +97,15 @@ const mapStyles = [
     featureType: "poi.medical",
     stylers: [
       {
-        visibility: "on",
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "poi.park",
+    stylers: [
+      {
+        visibility: "simplified",
       },
     ],
   },
@@ -29,6 +115,15 @@ const mapStyles = [
     stylers: [
       {
         color: "#a9c27d",
+      },
+    ],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "labels.text",
+    stylers: [
+      {
+        visibility: "off",
       },
     ],
   },
@@ -52,6 +147,15 @@ const mapStyles = [
       },
       {
         lightness: 35,
+      },
+    ],
+  },
+  {
+    featureType: "road",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "off",
       },
     ],
   },
@@ -114,10 +218,59 @@ const mapStyles = [
     ],
   },
   {
+    featureType: "transit.station",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "transit.station.airport",
+    stylers: [
+      {
+        visibility: "simplified",
+      },
+      {
+        weight: 1,
+      },
+    ],
+  },
+  {
+    featureType: "transit.station.airport",
+    elementType: "labels.icon",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "transit.station.airport",
+    elementType: "labels.text",
+    stylers: [
+      {
+        color: "#7497dc",
+      },
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
     featureType: "water",
     stylers: [
       {
         color: "#9fcbcd",
+      },
+    ],
+  },
+  {
+    featureType: "water",
+    elementType: "labels.text",
+    stylers: [
+      {
+        visibility: "off",
       },
     ],
   },

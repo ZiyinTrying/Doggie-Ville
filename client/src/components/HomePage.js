@@ -2,13 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import SigninForm from "./SigninForm";
+import { UserContext } from "./UserContext";
 
 const Homepage = () => {
   const history = useHistory();
-
+  const { setIsShowSigninForm, isShowSigninForm } =
+    React.useContext(UserContext);
   const handleClickStart = (e) => {
     if (e.key === "Enter" || e.type === "click") {
       history.push(`/main`);
+    }
+  };
+  const handleClickSignUp = (e) => {
+    if (e.key === "Enter" || e.type === "click") {
+      history.push(`/signup`);
     }
   };
   return (
@@ -20,8 +28,9 @@ const Homepage = () => {
             Are you ready to take your dog out for a fun day?
           </Description>
           <MainButton onClick={handleClickStart}>Get start!</MainButton>
-          <SignUpButton>Sign Up</SignUpButton>
+          <SignUpButton onClick={handleClickSignUp}>Sign Up</SignUpButton>
         </Side>
+        {isShowSigninForm && <SigninForm />}
       </Wrapper>
     </>
   );
@@ -64,5 +73,9 @@ const SignUpButton = styled.button`
   height: 40px;
 `;
 
-const Description = styled.div``;
+const Description = styled.div`
+  margin-bottom: 70px;
+  padding: 10px;
+  font-size: 18px;
+`;
 export default Homepage;

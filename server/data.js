@@ -89,8 +89,11 @@ const nationalParks = [
     _id: "1",
     parkName: "Parc national du Mont-Saint-Bruno",
     moreInfoUrl: "https://www.sepaq.com/pq/msb/",
-    latitude: "",
-    longtitude: "",
+    coordinates: {
+      latitude: 45.55008,
+      longitude: -73.31582,
+    },
+    category: "nationalParks",
     imgSrc:
       "https://res.cloudinary.com/dvmtjbjlp/image/upload/v1638805000/Doggie_Ville_Maps/mont-saint_bruno_fdphlo.png",
     summerTrail: {
@@ -108,10 +111,13 @@ const nationalParks = [
   },
   {
     _id: "2",
-    parkName: "PARC NATIONAL DES ÎLES-DE-BOUCHERVILLE",
+    parkName: "Parc National des Îles-de-Boucheville",
     moreInfoUrl: "https://www.sepaq.com/pq/bou/",
-    latitude: "",
-    longtitude: "",
+    coordinates: {
+      latitude: 45.59364318847656,
+      longitude: -73.4797592163086,
+    },
+    category: "nationalParks",
     imgSrc:
       "https://res.cloudinary.com/dvmtjbjlp/image/upload/v1638806334/Doggie_Ville_Maps/boucheville_ppejde.png",
     summerTrail: {
@@ -131,10 +137,13 @@ const nationalParks = [
   },
   {
     _id: "3",
-    parkName: "PARC NATIONAL DU MONT-TREMBLANT",
+    parkName: "Parc national du Mont-Tremblant",
     moreInfoUrl: "https://www.sepaq.com/pq/mot/",
-    latitude: "",
-    longtitude: "",
+    coordinates: {
+      latitude: 46.211074,
+      longitude: -74.466791,
+    },
+    category: "nationalParks",
     imgSrc:
       "https://res.cloudinary.com/dvmtjbjlp/image/upload/v1638807655/Doggie_Ville_Maps/mont_tremblant_lnostt.png",
     summerTrail: {

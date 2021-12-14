@@ -5,7 +5,10 @@ import Header from "./components/Header";
 import GlobalStyles from "./components/GlobalStyles";
 import Homepage from "./components/HomePage";
 import MainPage from "./components/MainPage";
-
+import BusinessDetail from "./components/BusinessDetail";
+import NationalParkDetail from "./components/NationalParkDetail";
+import SignUp from "./components/SignUp";
+import ProfilePage from "./components/ProfilePage";
 const App = () => {
   return (
     <Router>
@@ -18,14 +21,20 @@ const App = () => {
           <Homepage />
         </Route>
         <Route exact={true} path="/signup">
-          SignUp
+          <SignUp />
         </Route>
 
         <Route exact={true} path="/main">
           <MainPage />
         </Route>
-        <Route exact={true} path="/:profileId">
-          Profile
+        <Route exact={true} path="/main/:_id">
+          <BusinessDetail />
+        </Route>
+        <Route exact={true} path="/nationalPark/:_id">
+          <NationalParkDetail />
+        </Route>
+        <Route exact={true} path="/profile/:_id">
+          <ProfilePage />
         </Route>
       </Switch>
     </Router>

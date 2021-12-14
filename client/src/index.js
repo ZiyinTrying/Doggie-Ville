@@ -3,12 +3,18 @@ import ReactDOM from "react-dom";
 import App from "./App";
 
 import { BusinessProvider } from "./components/BusinessContext";
+import { UserProvider } from "./components/UserContext";
+import { FriendsProvider } from "./components/FriendsContext";
 
 ReactDOM.render(
-  <BusinessProvider>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </BusinessProvider>,
+  <UserProvider>
+    <BusinessProvider>
+      <FriendsProvider>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </FriendsProvider>
+    </BusinessProvider>
+  </UserProvider>,
   document.getElementById("root")
 );

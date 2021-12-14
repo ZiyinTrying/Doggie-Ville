@@ -5,7 +5,7 @@ require("dotenv").config({
 const { MongoClient } = require("mongodb");
 
 const { MONGO_URI } = process.env;
-console.log(MONGO_URI);
+
 const { v4: uuidv4 } = require("uuid");
 const options = {
   useNewUrlParser: true,
@@ -49,7 +49,6 @@ const getUserById = async (req, res) => {
   const db = client.db("doggie_ville");
 
   db.collection("users").findOne({ _id }, (err, result) => {
-    console.log(result);
     result
       ? res.status(200).json({ status: 200, _id, userProfile: result })
       : res.status(404).json({ status: 404, _id, message: "User not Found" });
@@ -65,16 +64,18 @@ const createUser = async (req, res) => {
   const db = client.db("doggie_ville");
   // retrive the key we need from body as a variable
   const { ownerName, dogName, email } = req.body;
-
+  console.log(ownerName, dogName, email);
   const validation = async () => {
     const allLetters = /^[A-Za-z]+$/;
-    if (!email.includes("@") || !email || !ownerName || !dogName) {
+    if (!email || !email.includes("@") || !ownerName || !dogName) {
       res
         .status(500)
-        .json({ status: 500, data: req.body, message: "missing data" });
+        .json({ status: 500, data: req.body, message: "Missing Data" });
       return false;
     } else if (!ownerName.match(allLetters)) {
-      res.status(500).json({ status: 500, message: "invalid input" });
+      res
+        .status(500)
+        .json({ status: 500, message: "Invalid owner name Input" });
       return false;
     }
 
@@ -96,7 +97,6 @@ const createUser = async (req, res) => {
 
   try {
     await db.collection("users").insertOne({ ...req.body, _id: newId });
-    // change book status
 
     res.status(201).json({
       status: 201,
@@ -127,7 +127,7 @@ const updateUser = async (req, res) => {
   const newValues = { $set: { ...req.body } };
   //   validation steps
   const allLetters = /^[A-Za-z]+$/;
-  if (!email.includes("@") || !email || !ownerName || !dogName) {
+  if (!email || !email.includes("@") || !ownerName || !dogName) {
     res
       .status(500)
       .json({ status: 500, data: req.body, message: "missing data" });
@@ -139,12 +139,37 @@ const updateUser = async (req, res) => {
 
   const result = await db.collection("users").findOne({ email });
 
-  if (result) {
-    res.status(400).json({ status: 400, message: "User already exist" });
-    return;
-  }
   try {
-    await db.collection("greetings").updateOne(query, newValues);
+    await db.collection("users").updateOne(query, newValues);
+    res.status(201).json({ status: 201, _id, ...req.body });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, data: req.body, message: err.message });
+  } finally {
+    //   this is the best place to close
+    client.close();
+  }
+};
+
+const updateUserLike = async (req, res) => {
+  // TODO: connect...
+  const client = new MongoClient(MONGO_URI, options);
+
+  const { _id } = req.params;
+  //   the object add in JSON is req.body, destructuring the object to see if there is a "hello" key.and save the value to a variable called hello
+
+  await client.connect();
+  // const { favouritesId } = req.body;
+  // console.log(favouritesId);
+
+  const db = client.db("doggie_ville");
+  const query = { _id };
+
+  const newValues = { $set: { ...req.body } };
+  //   validation steps
+  console.log(newValues);
+  try {
+    await db.collection("users").updateOne(query, newValues);
     res.status(201).json({ status: 201, _id, ...req.body });
   } catch (err) {
     console.log(err.stack);
@@ -159,4 +184,5 @@ module.exports = {
   getUserById,
   createUser,
   updateUser,
+  updateUserLike,
 };

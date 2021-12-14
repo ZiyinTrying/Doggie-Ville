@@ -19,7 +19,7 @@ const batchImport = async () => {
 
   const db = client.db("doggie_ville");
 
-  await db.collection("users").insertMany(users);
+  // await db.collection("users").insertMany(users);
   await db.collection("nationalParks").insertMany(nationalParks);
 
   client.close();
