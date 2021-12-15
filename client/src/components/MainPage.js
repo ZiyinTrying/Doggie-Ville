@@ -7,6 +7,7 @@ import { BusinessContext } from "./BusinessContext";
 import { UserContext } from "./UserContext";
 
 import FriendsContainer from "./FriendsContainer";
+import FavList from "./FavList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
@@ -38,7 +39,7 @@ const MainPage = () => {
     checkBarRefs,
     setCheckBarRefs,
   } = React.useContext(BusinessContext);
-  const { currentUser } = React.useContext(UserContext);
+  const { currentUser, sideBar, setSideBar } = React.useContext(UserContext);
 
   const hotelRef = useRef();
   const resturantRef = useRef();
@@ -223,6 +224,7 @@ const MainPage = () => {
           />
         </MapFeatures>
         <FriendsContainer />
+        <FavList />
       </MapWrapper>
       {/* <BusinessList /> */}
     </Wrapper>

@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import "tippy.js/animations/perspective.css";
-import { faDog } from "@fortawesome/free-solid-svg-icons";
+import { faDog, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 import GlobalStyles from "./GlobalStyles";
 import map from "../asset/map2.png";
@@ -17,8 +17,14 @@ import FriendsContext from "./FriendsContext";
 
 const Header = () => {
   const history = useHistory();
-  const { currentUser, setCurrentUser, isShowSigninForm, setIsShowSigninForm } =
-    React.useContext(UserContext);
+  const {
+    currentUser,
+    setCurrentUser,
+    isShowSigninForm,
+    setIsShowSigninForm,
+    sideBar,
+    setSideBar,
+  } = React.useContext(UserContext);
   const { friends, setFriends, isFriendsShow, setIsFriendsShow } =
     React.useContext(FriendsContext);
 
@@ -38,6 +44,9 @@ const Header = () => {
     // setCurrentUser(null);
     // setCurrentMarker(null);
     window.location.reload(false);
+  };
+  const handleSideBar = () => {
+    setSideBar(!sideBar);
   };
 
   const avatar = {
@@ -77,6 +86,14 @@ const Header = () => {
             }}
           />
         </StyleTippy>
+        <FavListButton onClick={handleSideBar}>
+          <FontAwesomeIcon
+            style={{ marginRight: "20px" }}
+            color="#f28482"
+            icon={faHeart}
+            size="2x"
+          />
+        </FavListButton>
         {currentUser ? (
           <Profile
             onClick={() => {
@@ -154,6 +171,13 @@ const Icon = styled.div`
   border-radius: 50%;
   /* border: 2px solid white;
   padding: 2px; */
+`;
+const FavListButton = styled.button`
+  background: none;
+  border: none;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const MapIcon = styled.img`
   width: 35px;

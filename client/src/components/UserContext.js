@@ -7,6 +7,7 @@ export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = React.useState(null);
   const [isShowSigninForm, setIsShowSigninForm] = React.useState(false);
   const [isSharedLocation, setIsSharedLocation] = React.useState(false);
+  const [sideBar, setSideBar] = React.useState(false);
   return (
     <UserContext.Provider
       value={{
@@ -16,6 +17,8 @@ export const UserProvider = ({ children }) => {
         setIsShowSigninForm,
         isSharedLocation,
         setIsSharedLocation,
+        sideBar,
+        setSideBar,
       }}
     >
       {children}

@@ -283,7 +283,7 @@ const Map = ({
 };
 const LocateButton = styled.button`
   position: absolute;
-  top: 8rem;
+  top: 7rem;
   left: 1rem;
   width: 4rem;
   height: 4rem;
@@ -291,16 +291,19 @@ const LocateButton = styled.button`
   border-radius: 50%;
   background-image: url("https://res.cloudinary.com/dvmtjbjlp/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1638891672/Doggie_Ville_Maps/23831362_vldmxn.jpg");
   background-size: contain;
+  transition: box-shadow 300ms ease;
 
   background-repeat: no-repeat;
   &:hover {
     cursor: pointer;
+
+    box-shadow: 0px 5px 15px 9px #d4d4d4;
   }
 `;
 const SearchAreabutton = styled.button`
   position: absolute;
   z-index: 100;
-  top: 18%;
+  top: 120px;
   left: 25%;
   width: 200px;
   height: 40px;
