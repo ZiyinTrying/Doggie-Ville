@@ -6,11 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDog } from "@fortawesome/free-solid-svg-icons";
 
 const ProfilePage = () => {
-  const { currentUser, isShowSigninForm, setIsShowSigninForm } =
-    React.useContext(UserContext);
+  const { currentUser } = React.useContext(UserContext);
   const history = useHistory();
   const [modifyFormData, setModifyFormData] = useState(currentUser);
-  const [disabled, setDisabled] = useState(true);
+
   const [subStatus, setSubStatus] = useState("idle");
   const [errMessage, setErrMessage] = useState(null);
 
@@ -22,7 +21,6 @@ const ProfilePage = () => {
   const handleModify = (ev) => {
     ev.preventDefault();
     setSubStatus("pending");
-    console.log(modifyFormData);
 
     fetch(`/users/${currentUser._id}`, {
       method: "PUT",
@@ -34,14 +32,13 @@ const ProfilePage = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         const { status, message } = json;
         if (status === 201) {
           setSubStatus("confirmed");
           setErrMessage(null);
         } else if (message) {
           setSubStatus("error");
-          console.log(message);
+
           setErrMessage(message);
         }
       });

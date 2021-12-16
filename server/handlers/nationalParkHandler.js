@@ -36,8 +36,6 @@ const getAllNationalParks = async (req, res) => {
   } finally {
     client.close();
   }
-
-  console.log("disconnected!");
 };
 
 const getNationalParksById = async (req, res) => {

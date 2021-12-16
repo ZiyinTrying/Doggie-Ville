@@ -8,7 +8,6 @@ const FavList = () => {
   const history = useHistory();
 
   const { currentUser, sideBar, setSideBar } = React.useContext(UserContext);
-  //   console.log(currentUser.favourites);
   return (
     currentUser && (
       <Wrapper className={sideBar ? "nav-menu active" : "nav-menu"}>
@@ -23,7 +22,6 @@ const FavList = () => {
                       <NationalParkDiv>
                         <BusinessName
                           onClick={() => {
-                            //   console.log(favorite._id);
                             history.push(`/nationalPark/${favorite._id}`);
                           }}
                         >
@@ -52,7 +50,6 @@ const FavList = () => {
                       <BusinessDiv>
                         <BusinessName
                           onClick={() => {
-                            console.log(`/main/${favorite.id}`);
                             history.push(`/main/${favorite.id}`);
                           }}
                         >
@@ -96,13 +93,15 @@ const Wrapper = styled.div`
   overflow-y: scroll;
   color: var(--color-dark-blue);
   padding-left: 20px;
+
   &.nav-menu {
-    background-color: white;
+    background-color: rgb(236, 234, 229);
     width: 30%;
-    height: calc(100% - 80px);
+    height: calc(100% - 50px);
     display: flex;
     justify-content: center;
     position: fixed;
+    z-index: 100;
 
     right: -100%;
     transition: 850ms;
@@ -110,13 +109,14 @@ const Wrapper = styled.div`
 
   &.nav-menu.active {
     right: 0;
-    transition: 550ms;
+    transition: 800ms;
   }
 `;
-const Container = styled.div`
-  margin-top: 20px;
-`;
+const Container = styled.div``;
 const NationalParkDiv = styled.div`
+  background-color: rgb(161, 193, 129, 50%);
+  margin-top: 10px;
+  border-radius: 10px;
   padding: 10px 5px;
   h2 {
     margin-bottom: 10px;
@@ -125,6 +125,9 @@ const NationalParkDiv = styled.div`
 const BusinessDiv = styled.div`
   border-bottom: 2px solid rgb(161, 193, 129);
   padding: 10px 5px;
+
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 const WindowImg = styled.img`
   width: 200px;
@@ -154,7 +157,6 @@ const BusinessName = styled.h2`
   &:hover {
     cursor: pointer;
     text-decoration: underline;
-    font-style: italic;
   }
 `;
 const LikeButton = styled.span`

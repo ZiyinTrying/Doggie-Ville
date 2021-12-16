@@ -1,13 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faMapMarkerAlt,
-  faHeart,
   faBed,
   faClinicMedical,
   faHamburger,
   faStore,
   faTree,
-  faDog,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Icons = (business) => {
@@ -15,7 +12,7 @@ const Icons = (business) => {
     ? {
         path: faBed.icon[4],
 
-        fillColor: "rgb(254, 127, 45)",
+        fillColor: "#f08080",
         fillOpacity: 1,
         anchor: new window.google.maps.Point(
           faBed.icon[0] / 2, // width

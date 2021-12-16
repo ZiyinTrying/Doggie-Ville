@@ -36,8 +36,6 @@ const getAllUsers = async (req, res) => {
   } finally {
     client.close();
   }
-
-  console.log("disconnected!");
 };
 
 const getUserById = async (req, res) => {
@@ -64,7 +62,7 @@ const createUser = async (req, res) => {
   const db = client.db("doggie_ville");
   // retrive the key we need from body as a variable
   const { ownerName, dogName, email } = req.body;
-  console.log(ownerName, dogName, email);
+
   const validation = async () => {
     const allLetters = /^[A-Za-z]+$/;
     if (!email || !email.includes("@") || !ownerName || !dogName) {
@@ -96,7 +94,9 @@ const createUser = async (req, res) => {
   }
 
   try {
-    await db.collection("users").insertOne({ ...req.body, _id: newId });
+    await db
+      .collection("users")
+      .insertOne({ ...req.body, _id: newId, favouritesId: [], favourites: [] });
 
     res.status(201).json({
       status: 201,
@@ -159,15 +159,13 @@ const updateUserLike = async (req, res) => {
   //   the object add in JSON is req.body, destructuring the object to see if there is a "hello" key.and save the value to a variable called hello
 
   await client.connect();
-  // const { favouritesId } = req.body;
-  // console.log(favouritesId);
 
   const db = client.db("doggie_ville");
   const query = { _id };
 
   const newValues = { $set: { ...req.body } };
   //   validation steps
-  console.log(newValues);
+
   try {
     await db.collection("users").updateOne(query, newValues);
     res.status(201).json({ status: 201, _id, ...req.body });

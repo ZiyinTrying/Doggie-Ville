@@ -1,11 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router";
-// import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faMapMarkerAlt,
-  faPhoneAlt,
   faGlobeAmericas,
   faHiking,
   faDog,
@@ -18,13 +15,12 @@ import background from "../asset/dogcamp.jpeg";
 
 const NationalParkDetail = () => {
   const { _id } = useParams();
-  console.log(_id);
+
   const [nationalParkDetail, setNationalParkDetail] = useState(null);
   useEffect(() => {
     fetch(`/facilities/nationalParks/${_id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setNationalParkDetail(data.nationalPark);
       })
       .catch((err) => {

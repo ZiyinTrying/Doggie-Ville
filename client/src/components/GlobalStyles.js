@@ -28,10 +28,12 @@ time, mark, audio, video, select {
     box-sizing: border-box;
     font-size: 100%;
     vertical-align: baseline;
-    font-family: 'Poppins', sans-serif;
+    /* font-family: 'Poppins', sans-serif; */
+    font-family: 'Ubuntu', sans-serif;
 }
 input {
-    font-family: 'Poppins', sans-serif;
+    /* font-family: 'Poppins', sans-serif; */
+    font-family: 'Ubuntu', sans-serif;
 }
 html, body {
    

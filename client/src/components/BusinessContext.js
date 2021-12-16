@@ -5,10 +5,7 @@ export const BusinessContext = createContext(null);
 export const BusinessProvider = ({ children }) => {
   //variable to store data from fetch "/items"
   const [businesses, setBusinesses] = useState([]);
-  const [currentMarker, setCurrentMarker] = React.useState({
-    lat: 45.446949,
-    lng: -73.608688,
-  });
+  const [currentMarker, setCurrentMarker] = React.useState({});
   const [checkBar, setCheckBar] = React.useState({
     hotels: false,
     resturant: false,
@@ -25,7 +22,6 @@ export const BusinessProvider = ({ children }) => {
     nationalParks: null,
     hotels: null,
   });
-  // const [currentMarker, setCurrentMarker] = React.useState(null);
   const [isLiked, setIsLiked] = React.useState(false);
 
   return (

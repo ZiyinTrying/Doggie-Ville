@@ -17,32 +17,17 @@ import FriendsContext from "./FriendsContext";
 
 const Header = () => {
   const history = useHistory();
-  const {
-    currentUser,
-    setCurrentUser,
-    isShowSigninForm,
-    setIsShowSigninForm,
-    sideBar,
-    setSideBar,
-  } = React.useContext(UserContext);
-  const { friends, setFriends, isFriendsShow, setIsFriendsShow } =
-    React.useContext(FriendsContext);
-
-  const { setBusinesses, businesses, setCurrentMarker, currentMarker } =
-    React.useContext(BusinessContext);
+  const { currentUser, setIsShowSigninForm, sideBar, setSideBar } =
+    React.useContext(UserContext);
 
   const handleSigninClick = () => {
     history.push(`/`);
     setIsShowSigninForm(true);
   };
 
-  if (currentUser) {
-    console.log(currentUser);
-  }
   const handleLogout = (e) => {
     e.stopPropagation();
-    // setCurrentUser(null);
-    // setCurrentMarker(null);
+
     window.location.reload(false);
   };
   const handleSideBar = () => {
@@ -62,7 +47,6 @@ const Header = () => {
   }
 
   return (
-    // console.log(currentUser)
     <Wrapper>
       <Logo to="/">
         Doggie Ville
@@ -86,14 +70,16 @@ const Header = () => {
             }}
           />
         </StyleTippy>
-        <FavListButton onClick={handleSideBar}>
-          <FontAwesomeIcon
-            style={{ marginRight: "20px" }}
-            color="#f28482"
-            icon={faHeart}
-            size="2x"
-          />
-        </FavListButton>
+        {currentUser && (
+          <FavListButton onClick={handleSideBar}>
+            <FontAwesomeIcon
+              style={{ marginRight: "20px" }}
+              color="#f28482"
+              icon={faHeart}
+              size="2x"
+            />
+          </FavListButton>
+        )}
         {currentUser ? (
           <Profile
             onClick={() => {
@@ -154,7 +140,6 @@ const StyleTippy = styled(Tippy)`
   display: flex;
   align-items: flex-start;
 
-  height: 100px;
   button {
     color: white;
     background: rgb(97, 155, 138);

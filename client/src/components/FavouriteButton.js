@@ -26,7 +26,6 @@ const FavouriteButton = ({ businessID, business }) => {
       favouritesId.push(businessID);
       favourites.push(business);
       console.log("add id");
-      console.log(favouritesId);
     } else {
       // when unliking the business, need to delete it from the favorite array. 1. find the index 2, splice it 3, toggle it to red 4. store it to current user 5, change the database
       let index = favouritesId.indexOf(businessID);
@@ -35,7 +34,6 @@ const FavouriteButton = ({ businessID, business }) => {
       favourites.splice(index, 1);
 
       console.log("delete id");
-      console.log(favouritesId);
     }
     setCurrentUser({ ...currentUser, favouritesId, favourites });
     setIsLiked(!isLiked);
@@ -52,9 +50,7 @@ const FavouriteButton = ({ businessID, business }) => {
       },
     })
       .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-      });
+      .then((json) => {});
   };
   return (
     <Button onClick={handleLike}>

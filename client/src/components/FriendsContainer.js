@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -9,15 +9,13 @@ import { UserContext } from "./UserContext";
 import FriendsContext from "./FriendsContext";
 
 const FriendsContainer = () => {
-  const { friends, setFriends, isFriendsShow, setIsFriendsShow } =
+  const { setFriends, isFriendsShow, setIsFriendsShow } =
     React.useContext(FriendsContext);
-  const { setBusinesses, businesses, setCurrentMarker, currentMarker } =
-    React.useContext(BusinessContext);
+  const { currentMarker } = React.useContext(BusinessContext);
   const {
     currentUser,
-    isShowSigninForm,
-    setIsShowSigninForm,
-    isSharedLocation,
+    setCurrentUser,
+
     setIsSharedLocation,
   } = React.useContext(UserContext);
 
@@ -39,6 +37,7 @@ const FriendsContainer = () => {
   const handleShareLocation = () => {
     let currentLat = currentMarker.lat;
     let currentLng = currentMarker.lng;
+    let timeStamp = new Date();
 
     fetch(`/users/${currentUser._id}`, {
       method: "PUT",
@@ -46,6 +45,7 @@ const FriendsContainer = () => {
         ...currentUser,
         latitude: currentLat,
         longtitude: currentLng,
+        timeStamp: timeStamp,
       }),
       headers: {
         Accept: "application/json",
@@ -54,11 +54,16 @@ const FriendsContainer = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         const { status, message } = json;
         if (status === 201) {
           window.alert("success");
           setIsSharedLocation(true);
+          setCurrentUser({
+            ...currentUser,
+            latitude: currentLat,
+            longtitude: currentLng,
+            timeStamp: timeStamp,
+          });
         } else if (message) {
           console.log(message);
         }

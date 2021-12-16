@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {
   GoogleMap,
@@ -8,23 +8,17 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMapMarkerAlt,
-  faHeart,
-  faBed,
-  faClinicMedical,
-  faHamburger,
-  faStore,
-  faTree,
-  faDog,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMapMarkerAlt, faDog } from "@fortawesome/free-solid-svg-icons";
+import { formatRelative } from "date-fns";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+import "tippy.js/animations/perspective.css";
 
 import mapStyles from "./mapStyles";
 import { BusinessContext } from "./BusinessContext";
 import { UserContext } from "./UserContext";
 import FriendsContext from "./FriendsContext";
-import { useHistory } from "react-router-dom";
-import FavouriteButton from "./FavouriteButton";
+
 import Icons from "./Icons";
 import InfoWindows from "./InfoWindows";
 require("dotenv").config();
@@ -36,7 +30,7 @@ const center = {
 };
 const mapContainerStyle = {
   width: "70vw",
-  height: "80vh",
+  height: "calc(100vh - 110px)",
 };
 
 const options = {
@@ -86,7 +80,6 @@ const Map = ({
   const panTo = (lat, lng) => {
     currentMapRef.current.panTo({ lat, lng });
     currentMapRef.current.setZoom(12);
-    console.log(currentMapRef.current.getCenter().lat());
   };
   const handleSearchArea = () => {
     hotelRef.current.checked = false;
@@ -101,16 +94,11 @@ const Map = ({
       lat: newLat,
       lng: newLng,
     });
-    // {
-    //   lat: 45.446949,
-    //   lng: -73.608688,
-    // }
   };
 
   const handleCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        // console.log(position.coords.latitude, position.coords.longitude);
         panTo(position.coords.latitude, position.coords.longitude);
         setCurrentMarker({
           lat: position.coords.latitude,
@@ -120,6 +108,9 @@ const Map = ({
       () => null
     );
   };
+  useEffect(() => {
+    handleCurrentLocation();
+  }, []);
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading maps";
@@ -144,6 +135,9 @@ const Map = ({
       >
         {currentMarker && (
           <Marker
+            onClick={() => {
+              setSelectedFriend(currentUser);
+            }}
             position={{ lat: currentMarker.lat, lng: currentMarker.lng }}
             icon={
               isSharedLocation && {
@@ -245,8 +239,11 @@ const Map = ({
         {/* ===========================Friends INFO WINDOW==================================================== */}
         {selectedFriend && (
           <InfoWindow
-            // maxWidth="100"
-            options={{ maxWidth: 250, maxHeight: 200 }}
+            options={{
+              maxWidth: 250,
+              maxHeight: 200,
+              pixelOffset: new window.google.maps.Size(10, -50),
+            }}
             position={{
               lat: Number(selectedFriend.latitude),
               lng: Number(selectedFriend.longtitude),
@@ -268,13 +265,29 @@ const Map = ({
                   <p>
                     whose parent is <span>{selectedFriend.ownerName}</span>
                   </p>
+                  {selectedFriend.timeStamp && (
+                    <p>
+                      Last update{" "}
+                      {formatRelative(
+                        // Date.parse("2021-12-15T15:54:33.803Z"),
+                        Date.parse(selectedFriend.timeStamp),
+                        new Date()
+                      )}
+                    </p>
+                  )}
                 </div>
               </FriendInfo>
             }
           </InfoWindow>
         )}
       </GoogleMap>
-      <LocateButton onClick={handleCurrentLocation}></LocateButton>
+      <StyleTippy
+        placement="right"
+        animation="perspective"
+        content="Recenter to my location"
+      >
+        <LocateButton onClick={handleCurrentLocation}></LocateButton>
+      </StyleTippy>
       <SearchAreabutton onClick={handleSearchArea}>
         Search this area
       </SearchAreabutton>
@@ -319,48 +332,14 @@ const SearchAreabutton = styled.button`
     color: white;
   }
 `;
-const ShowFavoriteButton = styled.button`
-  position: absolute;
-  top: 9rem;
-  left: 62%;
-  transition: transform 300ms ease;
-  background: none;
-  border: none;
 
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-  }
-`;
-
-const WindowImg = styled.img`
-  width: 200px;
-  max-height: 200px;
-`;
-const Icon = styled.div`
-  float: left;
-  margin-right: 10px;
-`;
-const BusinessName = styled.h2`
+const StyleTippy = styled(Tippy)`
+  color: black;
+  background-color: white;
   display: flex;
-  flex-direction: column;
-  margin-bottom: 5px;
-  &:hover {
-    cursor: pointer;
-    text-decoration: underline;
-    font-style: italic;
-  }
-`;
-const LikeButton = styled.span`
-  position: absolute;
-  top: 60px;
-  left: 72%;
+  align-items: flex-start;
 `;
 
-const Info = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 const FriendInfo = styled.div`
   display: flex;
   justify-content: center;

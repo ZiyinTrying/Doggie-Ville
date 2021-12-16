@@ -10,8 +10,11 @@ const InfoWindows = ({ selected, setSelected, currentUser }) => {
 
   return (
     <InfoWindow
-      // maxWidth="100"
-      options={{ maxWidth: 200, maxHeight: 200 }}
+      options={{
+        // pixelOffset: new window.google.maps.Size(0, -30),
+        maxWidth: 200,
+        maxHeight: 200,
+      }}
       position={{
         lat: selected.coordinates.latitude,
         lng: selected.coordinates.longitude,
@@ -53,7 +56,6 @@ const InfoWindows = ({ selected, setSelected, currentUser }) => {
         <div>
           <BusinessName
             onClick={() => {
-              console.log(`/main/${selected.id}`);
               history.push(`/main/${selected.id}`);
             }}
           >

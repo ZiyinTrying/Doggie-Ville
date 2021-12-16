@@ -1,10 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import SigninForm from "./SigninForm";
 import { UserContext } from "./UserContext";
-import background from "../asset/liedown.jpeg";
 
 const Homepage = () => {
   const history = useHistory();
@@ -28,6 +26,9 @@ const Homepage = () => {
           <Description>
             Are you ready to take your dog out for a fun day?
           </Description>
+          <Description>
+            Check out all the doggie-friendly places nearby!
+          </Description>
           <MainButton onClick={handleClickStart}>Get start!</MainButton>
           <SignUpButton onClick={handleClickSignUp}>Sign Up</SignUpButton>
         </Side>
@@ -40,7 +41,7 @@ const Wrapper = styled.div`
   margin-top: 50px;
   width: 100vw;
   height: 100vh;
-  background-color: var(--color-LightGreen);
+
   display: flex;
   /* justify-content: center;
   align-items: center; */
@@ -63,7 +64,7 @@ const Side = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: var(--color-LightGreen);
+  background-color: rgb(161, 193, 129, 70%);
   flex: 1;
   padding: 10px;
   button {
@@ -74,7 +75,7 @@ const Side = styled.div`
     padding: 5px 10px;
     margin: 15px;
     width: 90%;
-    height: 40px;
+    height: 60px;
     letter-spacing: 2.5px;
     font-weight: 700;
     color: white;
@@ -84,6 +85,7 @@ const Side = styled.div`
     transition: all 0.3s ease 0s;
     cursor: pointer;
     outline: none;
+    font-size: 18px;
     &:hover {
       background-color: rgb(161, 193, 129);
       box-shadow: 0px 15px 20px rgb(161, 193, 129, 0.4);
@@ -93,23 +95,22 @@ const Side = styled.div`
   }
 `;
 const MainButton = styled.button`
-  width: 150px;
-  height: 40px;
   margin-bottom: 100px;
 `;
-const SignUpButton = styled.button`
-  width: 150px;
-  height: 40px;
-`;
+const SignUpButton = styled.button``;
 
 const Description = styled.div`
-  font-weight: 500;
-  margin-bottom: 10px;
+  font-weight: 700;
+  margin-bottom: 20px;
   margin-right: 20px;
   padding: 10px;
-  line-height: 25px;
-  font-size: 20px;
+  line-height: 30px;
+  font-style: italic;
+  font-size: 25px;
   text-align: center;
   color: white;
+  :nth-child(2) {
+    color: rgb(97, 155, 138);
+  }
 `;
 export default Homepage;

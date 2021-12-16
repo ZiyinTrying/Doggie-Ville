@@ -1,7 +1,9 @@
 import React, { createContext, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+import "tippy.js/animations/perspective.css";
 import Map from "./Map";
 import { BusinessContext } from "./BusinessContext";
 import { UserContext } from "./UserContext";
@@ -21,14 +23,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const MainPage = () => {
-  // const [checkBar, setCheckBar] = React.useState({
-  //   hotels: false,
-  //   resturant: false,
-  //   petstore: false,
-  //   parks: false,
-  //   vet: false,
-  //   nationalParks: false,
-  // });
   const {
     setBusinesses,
     businesses,
@@ -67,13 +61,10 @@ const MainPage = () => {
   };
 
   const handleCheckNationalPark = (e) => {
-    // console.log({ [e.target.name]: e.target.checked });
     setCheckBar({ ...checkBar, [e.target.name]: e.target.checked });
     let categoryName = e.target.name;
 
     const uncheckCategory = (businesses) => {
-      // console.log(businesses);
-      //   console.log(businesses.categories[0].alias);
       let businessesAfterUncheck = businesses.filter((buisiness) => {
         return buisiness.category !== categoryName;
       });
@@ -84,7 +75,6 @@ const MainPage = () => {
       fetch("/facilities/nationalParks")
         .then((res) => res.json())
         .then((data) => {
-          // console.log(data);
           setBusinesses([...data.nationalParks, ...businesses]);
         })
         .catch((err) => {
@@ -96,14 +86,11 @@ const MainPage = () => {
   };
 
   const handleCheck = (e) => {
-    // console.log(e.target.checked);
     let categoryName = e.target.name;
     let currentLat = currentMarker.lat;
     let currentLng = currentMarker.lng;
     setCheckBar({ ...checkBar, [e.target.name]: e.target.checked });
-    // console.log(hotelRef.current.checked);
     const uncheckCategory = (businesses) => {
-      //   console.log(businesses.categories[0].alias);
       let businessesAfterUncheck = businesses.filter((buisiness) => {
         return buisiness.category !== categoryName;
       });
@@ -114,7 +101,6 @@ const MainPage = () => {
       fetch(`/facilities/${categoryName}/${currentLat}/${currentLng}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data.processedData);
           setBusinesses([...data.processedData, ...businesses]);
         })
         .catch((err) => {
@@ -155,7 +141,6 @@ const MainPage = () => {
               <CheckBoxInput
                 type="checkbox"
                 name="petstore"
-                //   value="pet store"
                 onChange={handleCheck}
                 ref={petstoreRef}
                 defaultChecked={checkBar["petstore"]}
@@ -193,25 +178,35 @@ const MainPage = () => {
             </Label>
           </CategoryBar>
           {currentUser && (
-            <ShowFavoriteButton
-              className="fa-layers fa-fw"
-              onClick={handleClickFav}
+            <StyleTippy
+              animation="perspective"
+              content="Only show your favourites"
+              placement="left"
             >
-              <FontAwesomeIcon icon={faHeart} color="#f28482" size="4x" />
-              <FontAwesomeIcon
-                icon={faDog}
-                size="2x"
-                style={
-                  isShowFav
-                    ? {
-                        color: "pink",
-                        marginLeft: "13px",
-                        marginTop: "-12px",
-                      }
-                    : { color: "white", marginLeft: "13px", marginTop: "-12px" }
-                }
-              />
-            </ShowFavoriteButton>
+              <ShowFavoriteButton
+                className="fa-layers fa-fw"
+                onClick={handleClickFav}
+              >
+                <FontAwesomeIcon icon={faHeart} color="#f28482" size="4x" />
+                <FontAwesomeIcon
+                  icon={faDog}
+                  size="2x"
+                  style={
+                    isShowFav
+                      ? {
+                          color: "pink",
+                          marginLeft: "13px",
+                          marginTop: "-12px",
+                        }
+                      : {
+                          color: "white",
+                          marginLeft: "13px",
+                          marginTop: "-12px",
+                        }
+                  }
+                />
+              </ShowFavoriteButton>
+            </StyleTippy>
           )}
           {/* /* here is the map component */}
           <Map
@@ -226,17 +221,19 @@ const MainPage = () => {
         <FriendsContainer />
         <FavList />
       </MapWrapper>
-      {/* <BusinessList /> */}
     </Wrapper>
   );
 };
 const Wrapper = styled.div`
   margin-top: 50px;
+  height: calc(100vh - 50px);
   display: flex;
   flex-direction: column;
+  background-color: rgb(161, 193, 129, 30%);
 `;
 const MapWrapper = styled.div`
   display: flex;
+  height: calc(100vh - 50px);
 `;
 const MapFeatures = styled.div``;
 const CategoryBar = styled.div`
@@ -271,6 +268,17 @@ const Label = styled.label`
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+  transition: box-shadow 500ms ease-in-out;
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0px 10px 13px -7px #000000, 5px 4px 8px 0px rgba(0, 0, 0, 0);
+  }
+`;
+const StyleTippy = styled(Tippy)`
+  color: black;
+  background-color: white;
+  display: flex;
+  align-items: flex-start;
 `;
 const Span = styled.div`
   color: var(--color-dark-blue);

@@ -10,7 +10,6 @@ const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
-console.log(MONGO_URI);
 
 const batchImport = async () => {
   const client = new MongoClient(MONGO_URI, options);
@@ -23,7 +22,6 @@ const batchImport = async () => {
   await db.collection("nationalParks").insertMany(nationalParks);
 
   client.close();
-  console.log("disconnected!");
 };
 
 batchImport();

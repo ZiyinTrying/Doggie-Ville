@@ -11,8 +11,7 @@ const SignUp = () => {
   const [subStatus, setSubStatus] = useState("idle");
   const [errMessage, setErrMessage] = useState(null);
 
-  const { currentUser, isShowSigninForm, setIsShowSigninForm } =
-    React.useContext(UserContext);
+  const { setIsShowSigninForm } = React.useContext(UserContext);
 
   const handleChange = (value, name) => {
     // every input have a handle change to modify formdata
@@ -22,7 +21,7 @@ const SignUp = () => {
   const handleSubmit = (ev) => {
     ev.preventDefault();
     setSubStatus("pending");
-    console.log(formData);
+
     fetch("/users", {
       method: "POST",
       body: JSON.stringify(formData),
@@ -33,14 +32,13 @@ const SignUp = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         const { status, message } = json;
         if (status === 201) {
           setSubStatus("confirmed");
           setErrMessage(null);
         } else if (message) {
           setSubStatus("error");
-          console.log(message);
+
           setErrMessage(message);
         }
       });

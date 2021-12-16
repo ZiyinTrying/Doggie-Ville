@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import SimpleImageSlider from "react-simple-image-slider";
 import styled from "styled-components";
@@ -9,18 +9,19 @@ import {
   faGlobeAmericas,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { UserContext } from "./UserContext";
 import detailbackground from "../asset/dogfood.jpeg";
 import FavouriteButton from "./FavouriteButton";
+import FavList from "./FavList";
 
 const BusinessDetail = () => {
+  const { currentUser } = React.useContext(UserContext);
   const { _id } = useParams();
-  console.log(_id);
   const [itemDetail, setItemDetail] = useState(null);
   useEffect(() => {
     fetch(`/business/${_id}`)
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data.data);
         setItemDetail(data.data);
       })
       .catch((err) => {
@@ -37,9 +38,7 @@ const BusinessDetail = () => {
     ];
   }
   const mystyle = {
-    padding: "10px 10px",
     borderRadius: "10px",
-    backgroundColor: "white",
   };
   const weekDays = [
     "Monday",
@@ -52,82 +51,88 @@ const BusinessDetail = () => {
   ];
   return (
     <>
+      <FavList />
       {itemDetail && (
         <Wrapper style={{ backgroundImage: `url(${detailbackground})` }}>
-          {itemDetail.photos[0] && (
-            <Slider className="root">
-              <SimpleImageSlider
-                width={896}
-                height={400}
-                images={images}
-                showBullets={true}
-                showNavs={true}
-                style={mystyle}
-                className="img"
-              />
-            </Slider>
-          )}
-          <InfoDetail>
-            <Title>
-              <h1>
-                {itemDetail.name}
-                <Star>{" ⭐".repeat(Math.ceil(itemDetail.rating))}</Star>
-                <LikeButton>
-                  <FavouriteButton businessID={_id} />
-                </LikeButton>
-              </h1>
-              <Category>{itemDetail.categories[0].title}</Category>
-            </Title>
-            <Content>
-              <ContactInfo>
-                <Address>
-                  <Icon>
-                    <FontAwesomeIcon icon={faMapMarkerAlt} />
-                  </Icon>
-                  {itemDetail.location.display_address.map((ele) => {
-                    return <div>{ele}</div>;
-                  })}
-                </Address>
-                {itemDetail.phone && (
-                  <Phone>
+          <Container>
+            {itemDetail.photos[0] && (
+              <Slider className="root">
+                <SimpleImageSlider
+                  width={896}
+                  height={400}
+                  images={images}
+                  showBullets={true}
+                  showNavs={true}
+                  style={mystyle}
+                  className="img"
+                  // z-index={3}
+                />
+              </Slider>
+            )}
+            <InfoDetail>
+              <Title>
+                <h1>
+                  {itemDetail.name}
+                  <Star>{" ⭐".repeat(Math.ceil(itemDetail.rating))}</Star>
+                  {currentUser && (
+                    <LikeButton>
+                      <FavouriteButton businessID={_id} />
+                    </LikeButton>
+                  )}
+                </h1>
+                <Category>{itemDetail.categories[0].title}</Category>
+              </Title>
+              <Content>
+                <ContactInfo>
+                  <Address>
                     <Icon>
-                      <FontAwesomeIcon icon={faPhoneAlt} />
+                      <FontAwesomeIcon icon={faMapMarkerAlt} />
                     </Icon>
-                    {itemDetail.phone}
-                  </Phone>
-                )}
-                <Icon>
-                  <FontAwesomeIcon icon={faGlobeAmericas} />
-                </Icon>
-                <Link href={itemDetail.url}>
-                  Visit our website for more information
-                </Link>
-              </ContactInfo>
-              <OpenHour>
-                {itemDetail.is_closed ? (
-                  <Status>
-                    <span>⭕</span> Close Now
-                  </Status>
-                ) : (
-                  <Status>
-                    <span>🟢</span>Open Now
-                  </Status>
-                )}
-                {itemDetail.hours &&
-                  itemDetail.hours[0].open.map((ele) => {
-                    return (
-                      <Hours>
-                        <p>{weekDays[ele.day]}</p>
-                        <p>
-                          {ele.start.slice(0, 2)}:{ele.start.slice(2)}~
-                          {ele.end.slice(0, 2)}:{ele.end.slice(2)}
-                        </p>
-                      </Hours>
-                    );
-                  })}
-              </OpenHour>
-            </Content>
-          </InfoDetail>
+                    {itemDetail.location.display_address.map((ele) => {
+                      return <div>{ele}</div>;
+                    })}
+                  </Address>
+                  {itemDetail.phone && (
+                    <Phone>
+                      <Icon>
+                        <FontAwesomeIcon icon={faPhoneAlt} />
+                      </Icon>
+                      {itemDetail.phone}
+                    </Phone>
+                  )}
+                  <Icon>
+                    <FontAwesomeIcon icon={faGlobeAmericas} />
+                  </Icon>
+                  <Link href={itemDetail.url}>
+                    Visit our website for more information
+                  </Link>
+                </ContactInfo>
+                <OpenHour>
+                  {itemDetail.is_closed ? (
+                    <Status>
+                      <span>⭕</span> Close Now
+                    </Status>
+                  ) : (
+                    <Status>
+                      <span>🟢</span>Open Now
+                    </Status>
+                  )}
+                  {itemDetail.hours &&
+                    itemDetail.hours[0].open.map((ele) => {
+                      return (
+                        <Hours>
+                          <p>{weekDays[ele.day]}</p>
+                          <p>
+                            {ele.start.slice(0, 2)}:{ele.start.slice(2)}~
+                            {ele.end.slice(0, 2)}:{ele.end.slice(2)}
+                          </p>
+                        </Hours>
+                      );
+                    })}
+                </OpenHour>
+              </Content>
+            </InfoDetail>
+          </Container>
         </Wrapper>
       )}
     </>
@@ -137,10 +142,18 @@ const Wrapper = styled.div`
   min-height: 100vh;
   margin-top: 50px;
   display: flex;
-  flex-direction: column;
+
   background-size: cover;
   background-position: bottom;
   color: var(--color-dark-blue);
+`;
+const Container = styled.div`
+  width: 80%;
+  background-color: rgb(255, 255, 255, 80%);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto;
 `;
 const InfoDetail = styled.div`
   background-color: rgb(242, 218, 227, 80%);
@@ -151,15 +164,6 @@ const InfoDetail = styled.div`
 `;
 const Slider = styled.div`
   margin: 0 auto;
-
-  /* &.root {
-    .rsis-image {
-      background-size: contain !important;
-      background-repeat: no-repeat;
-      background-color: black;
-      padding: 10px;
-    }
-  } */
 `;
 const Title = styled.div`
   font-size: 30px;
@@ -197,11 +201,7 @@ const OpenHour = styled.div`
   margin-bottom: 30px;
 `;
 
-const Address = styled.div`
-  /* font-size: 15px;
-  margin-top: 20px;
-  margin-left: 100px; */
-`;
+const Address = styled.div``;
 const ContactInfo = styled.div`
   font-size: 15px;
   margin-top: 20px;

@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router";
 // import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
 import styled from "styled-components";
 import { UserContext } from "./UserContext";
 import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +14,8 @@ const SigninForm = () => {
   const { currentUser, setCurrentUser } = React.useContext(UserContext);
   const { isShowSigninForm, setIsShowSigninForm } =
     React.useContext(UserContext);
+  const history = useHistory();
+
   const handleSignIn = (event) => {
     event.preventDefault();
 
@@ -24,7 +28,6 @@ const SigninForm = () => {
         });
         // if this login name is a member
         if (existingUser.length > 0) {
-          //   console.log(existingUser);
           setCurrentUser(existingUser[0]);
           setIsShowSigninForm(false);
           sessionStorage.clear();
@@ -37,11 +40,13 @@ const SigninForm = () => {
       .catch((err) => {
         console.log(err);
       });
+    history.push(`/main`);
   };
   return (
     <Wrapper>
       <Container>
         <form onSubmit={handleSignIn}>
+          <p>Already have an account?</p>
           <h1 className="signin-text">Sign In </h1>
           <label>Your email</label>
           <br></br>
@@ -90,6 +95,13 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   color: rgb(35, 61, 77);
+  p {
+    font-size: 15px;
+    margin-bottom: 10px;
+    margin-left: -50px;
+    font-style: italic;
+    color: rgb(97, 155, 138);
+  }
   input {
     margin-top: 5px;
     margin-bottom: 10px;
