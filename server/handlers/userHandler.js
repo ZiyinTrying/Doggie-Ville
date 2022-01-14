@@ -125,6 +125,7 @@ const updateUser = async (req, res) => {
   const query = { _id };
 
   const newValues = { $set: { ...req.body } };
+
   //   validation steps
   const allLetters = /^[A-Za-z]+$/;
   if (!email || !email.includes("@") || !ownerName || !dogName) {
@@ -138,6 +139,12 @@ const updateUser = async (req, res) => {
   }
 
   const result = await db.collection("users").findOne({ email });
+  //
+  if (result["_id"] !== _id) {
+    console.log(result);
+    res.status(400).json({ status: 400, message: "User already exist" });
+    return false;
+  }
 
   try {
     await db.collection("users").updateOne(query, newValues);
